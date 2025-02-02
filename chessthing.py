@@ -1,19 +1,22 @@
 import pygame,sys
 from pygame import QUIT
 from pawn import Pawn
+import os
 screen = pygame.display.set_mode((600, 600))
 pygame.display.set_caption("Chess")
 
 board = pygame.image.load("imgs/board.png")
 board = pygame.transform.scale(board, (600, 600))
 
+# saved positions for each square on the chess board for images
 boardspots = []
 
+# list for exact centers of the squares
 boardspots2 = []
+
 
 x = -60
 y = -62.5
-
 
 
 
@@ -64,8 +67,9 @@ for _ in range(8):
     boardspots.append(board_column)
 
 
-print (boardspots)
+# stores all the objects for all white pawns
 whitepawnlist = []
+# stores all the objects for all black pawns
 blackpawnlist = []
 
 x = 0
@@ -78,26 +82,40 @@ y = 1
 for _ in range(8):
     blackpawnlist.append(Pawn(x, y, "black", boardspots, boardspots2))
     x += 1
-        
+
+recentposition = (0, 0)
+lastrecent = (0, 0)
+select1 = 1
+selected = True
+print(boardspots)
+print("\n\n\n\n\n\n\n\n")
+print(boardspots2)
 while True:
+    screen.blit(board, (0, 0))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
             print(pygame.mouse.get_pos())
-            closest(pygame.mouse.get_pos())
-    
+            lastrecent = recentposition
+            recentposition = closest(pygame.mouse.get_pos())
+            if lastrecent == recentposition:
+                select1 = select1 * -1
+            else:
+                select1 = 1
 
-
-    
-    screen.blit(board, (0, 0))
+    if select1 == 1:
+        selected = True
+    if select1 == -1:
+        selected = False        
+        
     for pawn in whitepawnlist:
+        pawn.select(recentposition, screen, selected)
         pawn.update(screen)
-        pawn.movement()
     for pawn in blackpawnlist:
+        pawn.select(recentposition, screen, selected)
         pawn.update(screen)
-        pawn.movement()
         
     pygame.display.update()
     pygame.display.flip()
