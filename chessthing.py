@@ -93,7 +93,6 @@ print(boardspots)
 print("\n\n\n\n\n\n\n\n")
 print(boardspots2)
 while True:
-    move = False
     screen.blit(board, (0, 0))
 
 

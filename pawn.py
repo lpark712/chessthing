@@ -24,12 +24,15 @@ class Pawn:
 
 
     def movement(self, move, recentposition, lastrecent):
+        print(self.rect.x)
+        
         if move == True and self.rect.x == lastrecent[0] and self.rect.y == lastrecent[1]:
             
 
             self.rect.x = recentposition[0]
             self.rect.y = recentposition[1]
-            
+    
+    
             
             
     # select function is complete
