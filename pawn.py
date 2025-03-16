@@ -21,11 +21,18 @@ class Pawn:
         
     def update(self, screen):
         screen.blit(self.pawn, self.rect)
-    def movement(self, position, screen, selected):
-        #add another condition for if the square is occupied and one more for if we clicked on the square to go to
-        if self.select(position, screen, selected):
-            self.rect.y = self.boardspots[self.column][self.row - 1][1]
 
+
+    def movement(self, move, recentposition, lastrecent):
+        if move == True and self.rect.x == lastrecent[0] and self.rect.y == lastrecent[1]:
+            
+
+            self.rect.x = recentposition[0]
+            self.rect.y = recentposition[1]
+            
+            
+            
+    # select function is complete
     def select(self, position, screen, selected):
         if position[0] == self.position[0] - 32.5 and position[1] == self.position[1] - 35 and selected:
             surface = pygame.Surface((70, 70))
@@ -36,6 +43,7 @@ class Pawn:
         return selected
         
     def options(self, whitepawnlist, blackpawnlist):
+        pass
         # the pawn lists have objects stored inside them we can check against to see which spots are occupied
 
         # either 1 giant class or a bunch of different classes for each piece

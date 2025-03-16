@@ -87,15 +87,22 @@ recentposition = (0, 0)
 lastrecent = (0, 0)
 select1 = 1
 selected = True
+move = False
+count = 0
 print(boardspots)
 print("\n\n\n\n\n\n\n\n")
 print(boardspots2)
 while True:
+    move = False
     screen.blit(board, (0, 0))
+
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+
+
         if event.type == pygame.MOUSEBUTTONDOWN:
             print(pygame.mouse.get_pos())
             lastrecent = recentposition
@@ -105,18 +112,30 @@ while True:
             else:
                 select1 = 1
 
+            if lastrecent != recentposition and selected == True and count > 0:
+                move = True
+                select1 = select1 * -1
+            else:
+                move = False
+
+            count = 1
+            print(move)
+          
+    
     if select1 == 1:
         selected = True
     if select1 == -1:
-        selected = False        
+        selected = False 
         
     for pawn in whitepawnlist:
         pawn.select(recentposition, screen, selected)
         pawn.update(screen)
+        pawn.movement(move, recentposition, lastrecent)
+
     for pawn in blackpawnlist:
         pawn.select(recentposition, screen, selected)
         pawn.update(screen)
-        
+        pawn.movement(move, recentposition, lastrecent)
+
     pygame.display.update()
     pygame.display.flip()
-    
